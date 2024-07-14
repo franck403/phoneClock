@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8" />
+
+<style id="webmakerstyle">
+body {
+  background-color: black;
+  font-family: Arial, sans-serif;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color:darkgray;
+  height:100vh;
+  overflow:hidden;
+  flex-direction:column;
+}
+
+#clock {
+  font-size: 15vw;
+  text-align: center;
+}
+
+.seconds {
+  color:#454545;
+}
+#date {
+  font-size:1.5em;
+}
+</style>
+</head>
+<body>
+<div id="clock"></div>
+<div id="date"></div>
+
+<script>
+function updateClock() {
+    var now = new Date();
+    var hours = now.getHours();
+    var minutes = now.getMinutes();
+    var seconds = now.getSeconds();
+
+    // Add leading zeros if necessary
+    hours = (hours < 10) ? "0" + hours : hours;
+    minutes = (minutes < 10) ? "0" + minutes : minutes;
+    seconds = (seconds < 10) ? "0" + seconds : seconds;
+
+    var time = hours + ":" + minutes + ":<span class='seconds'>" + seconds + '</span>';
+
+    document.getElementById('clock').innerHTML = time;
+    var date = frenchGreeting()
+    document.getElementById('date').innerHTML = date;
+    
+}
+
+// Update the clock every second
+setInterval(updateClock, 1000);
+
+// Update the clock immediately to avoid delay
+updateClock();
+
+function frenchGreeting() {
+    let date = new Date();
+    let hours = date.getHours();
+    let months = ["janvier", "février", "mars", "avril", "mai", "juin", "juillet", "août", "septembre", "octobre", "novembre", "décembre"];
+    let day = date.getDate();
+    let month = months[date.getMonth()];
+    let year = date.getFullYear();
+
+    if (hours < 12) {
+        return "Bonjour! Nous sommes en " + month + " le " + day + " " + year + ".";
+    } else if (hours < 18) {
+        return "Bon après-midi! Nous sommes en " + month + " le " + day + " " + year + ".";
+    } else {
+        return "Bonne soirée! Nous sommes en " + month + " le " + day + " " + year + ".";
+    }
+}
+
+//# sourceURL=userscript.js
+</script>
+</body>
+</html>
