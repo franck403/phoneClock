@@ -34,6 +34,7 @@ body {
 </style>
 </head>
 <body>
+  <label><input id='lock' type="checkbox" value="keep screen alive"> keep screen alive</label>
 <div id="clock"></div>
 <div id="date"></div>
 
@@ -103,7 +104,14 @@ function release() {
     screenLock = await navigator.wakeLock.request('screen');
   }
 });
-  getScreenLock()
+  function toggleLock() {
+    var val = document.getElementById('lock').checked
+    if (val) {
+      getScreenLock()
+    } else {
+      release()
+    }
+  }
 </script>
 </body>
 </html>
