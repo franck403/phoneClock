@@ -79,8 +79,31 @@ function frenchGreeting() {
         return "Bonne soirée! Nous sommes en " + month + " le " + day + " " + year + ".";
     }
 }
-
-//# sourceURL=userscript.js
+  async function getScreenLock() {
+  if(isScreenLockSupported()){
+    let screenLock;
+    try {
+       screenLock = await navigator.wakeLock.request('screen');
+    } catch(err) {
+       console.log(err.name, err.message);
+    }
+    return screenLock;
+  }
+}
+function release() { 
+  if(typeof screenLock !== "undeinfed" && screenLock != null) {
+    screenLock.release()
+    .then(() => {
+      console.log("Lock released 🎈");
+      screenLock = null;
+    });
+  }
+}document.addEventListener('visibilitychange', async () => {
+  if (screenLock !== null && document.visibilityState === 'visible') {
+    screenLock = await navigator.wakeLock.request('screen');
+  }
+});
+  getScreenLock()
 </script>
 </body>
 </html>
