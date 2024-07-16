@@ -275,7 +275,7 @@ function displayHourlyUVIndex(data) {
 
         const listItem = document.createElement('p');
         listItem.innerText = `${hour}:00 - UV Index: ${uvIndex}`;
-        listItem.classlist.add('hourly-uv-item')
+        listItem.classList.add('hourly-uv-item')
         hourlyUVIndexContainer.appendChild(listItem);
         i++
     });
