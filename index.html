@@ -5,6 +5,8 @@
 <title>Clock - By Geoloup</title>
 <link rel="shortcut icon" href="clock.png">
 <link rel="manifest" href="manifest.json" />
+<link href='https://unpkg.com/boxicons@2.1.2/css/boxicons.min.css' rel='stylesheet'>
+<link rel="stylesheet" href="style.css">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0,interactive-widget=resizes-content">
 <style id="webmakerstyle">
@@ -34,7 +36,20 @@ body {
 </style>
 </head>
 <body>
-  <label><input id='lock' type="checkbox" value="keep screen alive"> keep screen alive</label>
+<label><input id='lock' type="checkbox" value="keep screen alive"> keep screen alive</label>
+<div class="weather-container">
+    <h2>Weather Information</h2>
+    <div id="today-weather">
+        <i class='bx bxs-sun' id="weather-icon"></i>
+        <div id="temperature"></div>
+        <div id="uv-index"></div>
+    </div>
+    <div id="tomorrow-weather">
+        <h3>Tomorrow:</h3>
+        <div id="tomorrow-temp"></div>
+        <div id="tomorrow-uv"></div>
+    </div>
+</div>
 <div id="clock"></div>
 <div id="date"></div>
 
@@ -113,6 +128,26 @@ function release() {
       release()
     }
   }
+  const latitude = 51.5074;
+const longitude = -0.1278;
+
+async function getWeatherData() {
+    const response = await fetch(`https://api.open-meteo.com/v1/forecast?latitude=${latitude}&longitude=${longitude}&daily=temperature_2m_max,uv_index_max&current_weather=true&timezone=auto`);
+    const data = await response.json();
+    return data;
+}
+
+function displayWeatherData(data) {
+    document.getElementById('temperature').innerText = `Temperature: ${data.current_weather.temperature}°C`;
+    document.getElementById('uv-index').innerText = `UV Index: ${data.daily.uv_index_max[0]}`;
+    document.getElementById('tomorrow-temp').innerText = `Tomorrow's Temperature: ${data.daily.temperature_2m_max[1]}°C`;
+    document.getElementById('tomorrow-uv').innerText = `Tomorrow's UV Index: ${data.daily.uv_index_max[1]}`;
+}
+
+getWeatherData()
+    .then(data => displayWeatherData(data))
+    .catch(error => console.error(error));
+
 </script>
 </body>
 </html>
