@@ -197,15 +197,15 @@ async function getWeatherData() {
 function displayHourlyUVIndex(data) {
     const hourlyUVIndexContainer = document.getElementById('hourly-uv-index');
     hourlyUVIndexContainer.innerHTML = '';
-
+    var i = 00
     data.hourly.time.slice(0, 24).forEach((time, index) => {
         const uvIndex = data.hourly.uv_index[index];
-        const date = new Date(time * 1000);
-        const hour = date.getHours();
+        const hour = i;
 
-        const listItem = document.createElement('li');
+        const listItem = document.createElement('p');
         listItem.innerText = `${hour}:00 - UV Index: ${uvIndex}`;
         hourlyUVIndexContainer.appendChild(listItem);
+        i++
     });
 }
 
