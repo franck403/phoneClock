@@ -1,6 +1,10 @@
 .weather-container {
     position:fixed;
+    top: 10px;
+    display: flex;
+    gap: 50px;
 }
+
 
 #weather-icon {
     font-size: 4em;
