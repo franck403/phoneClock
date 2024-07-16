@@ -76,22 +76,32 @@ body {
 <div id='hourly-uv-index'></div>
 <label><input onclick='toggleLock()' id='lock' type="checkbox" value="keep screen alive"> keep screen alive</label>
 <script>
-  function createPopup() {
+function createPopup(title, text) {
     // Create the popup div
     var popup = document.createElement('div');
     popup.id = 'popup';
     popup.style.position = 'fixed';
     popup.style.width = '200px';
-    popup.style.height = '100px';
+    popup.style.height = 'auto'; // Changed height to auto to accommodate varying text length
     popup.style.background = '#fff';
     popup.style.border = '1px solid #000';
-    popup.style.zIndex = '101'; // Updated zIndex to 101
+    popup.style.zIndex = '101';
     popup.style.left = '50%';
     popup.style.top = '50%';
     popup.style.transform = 'translate(-50%, -50%)';
     popup.style.textAlign = 'center';
     popup.style.padding = '20px';
     popup.style.boxSizing = 'border-box';
+
+    // Create the title element
+    var titleElement = document.createElement('h3');
+    titleElement.textContent = title;
+    popup.appendChild(titleElement);
+
+    // Create the text element
+    var textElement = document.createElement('p');
+    textElement.textContent = text;
+    popup.appendChild(textElement);
 
     // Create the close button
     var closeButton = document.createElement('button');
@@ -109,6 +119,7 @@ body {
     // Append the popup to the body
     document.body.appendChild(popup);
 }
+
 
   var screenLock;
 function updateClock() {
