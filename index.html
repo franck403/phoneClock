@@ -39,6 +39,7 @@ body {
 <div id="date"></div>
 
 <script>
+  var screenlock;
 function updateClock() {
     var now = new Date();
     var hours = now.getHours();
@@ -81,8 +82,7 @@ function frenchGreeting() {
     }
 }
   async function getScreenLock() {
-  if(isScreenLockSupported()){
-    let screenLock;
+  if(isScreenLockSupported()) {
     try {
        screenLock = await navigator.wakeLock.request();
     } catch(err) {
@@ -99,7 +99,8 @@ function release() {
       screenLock = null;
     });
   }
-}document.addEventListener('visibilitychange', async () => {
+}
+  document.addEventListener('visibilitychange', async () => {
   if (screenLock !== null && document.visibilityState === 'visible') {
     screenLock = await navigator.wakeLock.request('screen');
   }
