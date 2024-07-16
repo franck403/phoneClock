@@ -276,6 +276,7 @@ function displayHourlyUVIndex(data) {
         const listItem = document.createElement('p');
         listItem.innerText = `${hour}:00 - UV Index: ${uvIndex}`;
         listItem.classList.add('hourly-uv-item')
+        listItem.dataset.hour = hour
         hourlyUVIndexContainer.appendChild(listItem);
         i++
     });
@@ -306,14 +307,14 @@ getWeatherData()
     var items = document.getElementsByClassName('uv-index-item');
 
     for (var i = 0; i < items.length; i++) {
-      var itemHour = parseInt(items[i].innerText.split(':')[0]);
+      var itemHour = items[i].dataset.hour
       if (itemHour !== currentHour) {
         items[i].style.display = 'none';
       } else {
         items[i].style.display = 'block';
       }
     }
-  }, 60000); // 60000 milliseconds = 1 minute
+  }, 1000); // 60000 milliseconds = 1 minute
   var batterie = document.getElementById('batterie')
 navigator.getBattery().then((battery) => {
   function updateAllBatteryInfo() {
