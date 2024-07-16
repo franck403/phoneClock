@@ -82,7 +82,7 @@ function updateClock() {
     var hours = now.getHours();
     var minutes = now.getMinutes();
     var seconds = now.getSeconds();
-
+    document.getElementById('hourly-uv-index')
     // Add leading zeros if necessary
     hours = (hours < 10) ? "0" + hours : hours;
     minutes = (minutes < 10) ? "0" + minutes : minutes;
@@ -157,6 +157,77 @@ function release() {
     document.getElementById('video').pause()
     const latitude = 51.5074;
     const longitude = -0.1278;
+function getLocation() {
+  if ('geolocation' in navigator) {
+    navigator.permissions.query({ name: 'geolocation' }).then(permissionStatus => {
+      if (permissionStatus.state === 'granted') {
+        navigator.geolocation.getCurrentPosition(
+          position => {
+            const latitude = position.coords.latitude;
+            const longitude = position.coords.longitude;
+
+            // Your code here, use latitude and longitude as needed
+            console.log(`Latitude: ${latitude}, Longitude: ${longitude}`);
+          },
+          error => {
+            console.error(error);
+            getLocationByIP();
+          },
+          {
+            enableHighAccuracy: true,
+            timeout: 5000,
+            maximumAge: 0
+          }
+        );
+      } else if (permissionStatus.state === 'denied') {
+        getLocationByIP();
+      } else {
+        // permissionStatus.state will be 'prompt' if the user hasn't decided yet
+        navigator.geolocation.getCurrentPosition(
+          position => {
+            const latitude = position.coords.latitude;
+            const longitude = position.coords.longitude;
+
+            // Your code here, use latitude and longitude as needed
+            console.log(`Latitude: ${latitude}, Longitude: ${longitude}`);
+          },
+          error => {
+            console.error(error);
+            getLocationByIP();
+          },
+          {
+            enableHighAccuracy: true,
+            timeout: 5000,
+            maximumAge: 0
+          }
+        );
+      }
+    });
+  } else {
+    getLocationByIP();
+  }
+  
+getWeatherData()
+    .then(data => displayWeatherData(data))
+    .catch(error => console.error(error));
+}
+
+function getLocationByIP() {
+  fetch('https://ipapi.co/json/')
+    .then(response => response.json())
+    .then(data => {
+      const latitude = data.latitude;
+      const longitude = data.longitude;
+
+      // Your code here, use latitude and longitude as needed
+      console.log(`Latitude: ${latitude}, Longitude: ${longitude}`);
+    })
+    .catch(error => {
+      console.error(error);
+    });
+}
+
+getLocation();
 
 const weatherIcons = {
     0: 'bx-sun',
@@ -204,6 +275,7 @@ function displayHourlyUVIndex(data) {
 
         const listItem = document.createElement('p');
         listItem.innerText = `${hour}:00 - UV Index: ${uvIndex}`;
+        listItem.classlist.add('hourly-uv-item')
         hourlyUVIndexContainer.appendChild(listItem);
         i++
     });
@@ -224,7 +296,24 @@ function displayWeatherData(data) {
 getWeatherData()
     .then(data => displayWeatherData(data))
     .catch(error => console.error(error));
-setInterval(()=> {},1000*60*60) // repeat every 60 minutes work my 1000ms * 60s to make 1 minute then *60 minute to make 1h
+setInterval(()=> {
+getWeatherData()
+    .then(data => displayWeatherData(data))
+    .catch(error => console.error(error));
+},1000*60*60) // repeat every 60 minutes work my 1000ms * 60s to make 1 minute then *60 minute to make 1h
+    setInterval(function() {
+    var currentHour = new Date().getHours();
+    var items = document.getElementsByClassName('uv-index-item');
+
+    for (var i = 0; i < items.length; i++) {
+      var itemHour = parseInt(items[i].innerText.split(':')[0]);
+      if (itemHour !== currentHour) {
+        items[i].style.display = 'none';
+      } else {
+        items[i].style.display = 'block';
+      }
+    }
+  }, 60000); // 60000 milliseconds = 1 minute
   var batterie = document.getElementById('batterie')
 navigator.getBattery().then((battery) => {
   function updateAllBatteryInfo() {
