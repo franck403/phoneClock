@@ -38,16 +38,19 @@ body {
 <body>
 <label><input id='lock' type="checkbox" value="keep screen alive"> keep screen alive</label>
 <div class="weather-container">
-    <h2>Weather Information</h2>
+    <div>
+        <h2>Weather Information</h2>
+        <i class="bx bxs-sun" id="weather-icon"></i>
+    </div>
     <div id="today-weather">
-        <i class='bx bxs-sun' id="weather-icon"></i>
-        <div id="temperature"></div>
-        <div id="uv-index"></div>
+        
+        <h3>Today:</h3><div id="temperature">Temperature: 16.1°C</div>
+        <div id="uv-index">UV Index: 5.1</div>
     </div>
     <div id="tomorrow-weather">
         <h3>Tomorrow:</h3>
-        <div id="tomorrow-temp"></div>
-        <div id="tomorrow-uv"></div>
+        <div id="tomorrow-temp">Tomorrow's Temperature: 24.7°C</div>
+        <div id="tomorrow-uv">Tomorrow's UV Index: 6.1</div>
     </div>
 </div>
 <div id="clock"></div>
