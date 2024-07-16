@@ -84,7 +84,7 @@ function frenchGreeting() {
   if(isScreenLockSupported()){
     let screenLock;
     try {
-       screenLock = await navigator.wakeLock.request('screen');
+       screenLock = await navigator.wakeLock.request();
     } catch(err) {
        console.log(err.name, err.message);
     }
