@@ -134,6 +134,37 @@ function release() {
   const latitude = 51.5074;
 const longitude = -0.1278;
 
+const weatherDescriptions = {
+const weatherIcons = {
+    0: 'bx-sun',
+    1: 'bx-sun',
+    2: 'bx-cloud',
+    3: 'bx-cloud',
+    45: 'bx-cloud',
+    48: 'bx-cloud',
+    51: 'bx-rain',
+    53: 'bx-rain',
+    55: 'bx-rain',
+    56: 'bx-rain',
+    57: 'bx-rain',
+    61: 'bx-rain',
+    63: 'bx-rain',
+    65: 'bx-rain',
+    66: 'bx-rain',
+    67: 'bx-rain',
+    71: 'bx-cloud-snow',
+    73: 'bx-cloud-snow',
+    75: 'bx-cloud-snow',
+    77: 'bx-cloud-snow',
+    80: 'bx-cloud-rain',
+    81: 'bx-cloud-rain',
+    82: 'bx-cloud-rain',
+    85: 'bx-cloud-rain',
+    86: 'bx-cloud-rain',
+    95: 'bx-cloud-lightning',
+    96: 'bx-cloud-lightning',
+    99: 'bx-cloud-lightning'
+};
 async function getWeatherData() {
     const response = await fetch(`https://api.open-meteo.com/v1/forecast?latitude=${latitude}&longitude=${longitude}&daily=temperature_2m_max,uv_index_max&current_weather=true&timezone=auto`);
     const data = await response.json();
@@ -141,6 +172,10 @@ async function getWeatherData() {
 }
 
 function displayWeatherData(data) {
+    const currentWeatherCode = data.current_weather.weathercode;
+    const currentWeatherIcon = weatherIcons[currentWeatherCode] || 'bx-cloud';
+
+    document.getElementById('weather-icon').className = `bx ${currentWeatherIcon}`
     document.getElementById('temperature').innerText = `Temperature: ${data.current_weather.temperature}°C`;
     document.getElementById('uv-index').innerText = `UV Index: ${data.daily.uv_index_max[0]}`;
     document.getElementById('tomorrow-temp').innerText = `Tomorrow's Temperature: ${data.daily.temperature_2m_max[1]}°C`;
@@ -150,6 +185,7 @@ function displayWeatherData(data) {
 getWeatherData()
     .then(data => displayWeatherData(data))
     .catch(error => console.error(error));
+setInterval(()=> {},1000*60*90) // repeat every 90 minutes work my 1000ms * 60s to make 1 minute then *90 minute to make 1h and half
 
 </script>
 </body>
