@@ -198,6 +198,7 @@ function displayHourlyUVIndex(data) {
 }
 
 function displayWeatherData(data) {
+    displayHourlyUVIndex(data)
     const currentWeatherCode = data.current_weather.weathercode;
     const currentWeatherIcon = weatherIcons[currentWeatherCode] || 'bx-cloud';
 
