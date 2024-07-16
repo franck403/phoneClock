@@ -304,7 +304,7 @@ getWeatherData()
 },1000*60*60) // repeat every 60 minutes work my 1000ms * 60s to make 1 minute then *60 minute to make 1h
     setInterval(function() {
     var currentHour = new Date().getHours();
-    var items = document.getElementsByClassName('uv-index-item');
+    var items = document.getElementsByClassName('hourly-uv-item');
 
     for (var i = 0; i < items.length; i++) {
       var itemHour = items[i].dataset.hour
