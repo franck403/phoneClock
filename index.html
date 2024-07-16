@@ -54,7 +54,6 @@ body {
   <source src="screen.mp4" type="video/mp4" />
 </video>
 
-<label><input onclick='toggleLock()' id='lock' type="checkbox" value="keep screen alive"> keep screen alive</label>
 <div class="weather-container">
     <div>
         <h2>Weather Information</h2>
@@ -75,7 +74,42 @@ body {
 <div id="date"></div>
 <h3 id='batterie'></h3>
 <div id='hourly-uv-index'></div>
+<label><input onclick='toggleLock()' id='lock' type="checkbox" value="keep screen alive"> keep screen alive</label>
 <script>
+  function createPopup() {
+    // Create the popup div
+    var popup = document.createElement('div');
+    popup.id = 'popup';
+    popup.style.position = 'fixed';
+    popup.style.width = '200px';
+    popup.style.height = '100px';
+    popup.style.background = '#fff';
+    popup.style.border = '1px solid #000';
+    popup.style.zIndex = '101'; // Updated zIndex to 101
+    popup.style.left = '50%';
+    popup.style.top = '50%';
+    popup.style.transform = 'translate(-50%, -50%)';
+    popup.style.textAlign = 'center';
+    popup.style.padding = '20px';
+    popup.style.boxSizing = 'border-box';
+
+    // Create the close button
+    var closeButton = document.createElement('button');
+    closeButton.textContent = 'OK';
+    closeButton.style.position = 'absolute';
+    closeButton.style.top = '10px';
+    closeButton.style.right = '10px';
+    closeButton.onclick = function() {
+        document.body.removeChild(popup);
+    };
+
+    // Append the close button to the popup
+    popup.appendChild(closeButton);
+
+    // Append the popup to the body
+    document.body.appendChild(popup);
+}
+
   var screenLock;
 function updateClock() {
     var now = new Date();
@@ -122,16 +156,20 @@ function frenchGreeting() {
   if(navigator.wakeLock != null || navigator.wakeLock != undefined) {
     try {
        screenLock = await navigator.wakeLock.request();
+    createPopup('Keep screen alive','screen is keep alive by wakeLock. On most device it should take not that buch batterie')
     } catch(err) {
        console.log(err.name, err.message);
-    }
-    
+       document.getElementById('video').play()
+       createPopup('Keep screen alive','screen is keeped alive using a video witch can use more batterie than wakeLock. Sadly wakeLock is not there on your device. Note 2h of continue operation take 20% on the batterie')
+    }  
     return screenLock;
   } else {    
       document.getElementById('video').play()
+    createPopup('Keep screen alive','screen is keeped alive using a video witch can use more batterie than wakeLock. Sadly wakeLock is not there on your device. Note 2h of continue operation take 20% on the batterie')
   }
 }
 function release() { 
+      document.getElementById('video').pause()
   if(typeof screenLock !== "undeinfed" && screenLock != null) {
     screenLock.release()
     .then(() => {
@@ -317,6 +355,16 @@ getWeatherData()
     }
   }
     setInterval(updateUVIndex, 1000*60); // 60000 milliseconds = 1 minute
+function deselect(e) {
+  var popElements = document.querySelectorAll('.pop');
+  popElements.forEach(function(pop) {
+    pop.style.opacity = '0';
+    pop.style.height = '0';
+    e.classList.remove('selected');
+  });
+}
+
+
   var batterie = document.getElementById('batterie')
 navigator.getBattery().then((battery) => {
   function updateAllBatteryInfo() {
