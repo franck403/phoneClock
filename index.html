@@ -119,7 +119,7 @@ function frenchGreeting() {
     }
 }
   async function getScreenLock() {
-  if(isScreenLockSupported()) {
+  if(navigator.wakeLock != null || navigator.wakeLock != undefined) {
     try {
        screenLock = await navigator.wakeLock.request();
     } catch(err) {
