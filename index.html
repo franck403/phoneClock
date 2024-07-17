@@ -76,12 +76,14 @@ body {
         <div id="tomorrow-uv">Tomorrow's UV Index: 6.1</div>
     </div>
 </div>
-<div id="clock"></div>
-<div id="date"></div>
-<div class="Info">
-  <h3 id='batterie'></h3>
-  <label><input onclick='toggleLock()' id='lock' type="checkbox" value="keep screen alive"> keep screen alive</label>  
-  <button onclick="fullscreen()">FullScreen</button>
+<div>
+  <div id="clock"></div>
+  <div id="date"></div>
+  <div class="Info">
+    <h3 id='batterie'></h3>
+    <label><input onclick='toggleLock()' id='lock' type="checkbox" value="keep screen alive"> keep screen alive</label>  
+    <button onclick="fullscreen()">FullScreen</button>
+  </div>
 </div>
 <script>
 function createPopup(title, text) {
@@ -351,8 +353,8 @@ function displayWeatherData(data) {
     document.getElementById('weather-icon').className = `bx ${currentWeatherIcon}`
     document.getElementById('temperature').innerText = `Température: ${data.current_weather.temperature}°C`;
     document.getElementById('uv-index').innerText = `UV max: ${data.daily.uv_index_max[0]}`;
-    document.getElementById('tomorrow-temp').innerText = `Tenpérature Demain: ${data.daily.temperature_2m_max[1]}°C`;
-    document.getElementById('tomorrow-uv').innerText = `UV max de Demain: ${data.daily.uv_index_max[1]}`;
+    document.getElementById('tomorrow-temp').innerText = `Tenpérature: ${data.daily.temperature_2m_max[1]}°C`;
+    document.getElementById('tomorrow-uv').innerText = `UV max : ${data.daily.uv_index_max[1]}`;
 }
 
 getWeatherData()
@@ -362,7 +364,7 @@ setInterval(()=> {
 getWeatherData()
     .then(data => displayWeatherData(data))
     .catch(error => console.error(error));
-},1000*60*60) // repeat every 60 minutes work my 1000ms * 60s to make 1 minute then *60 minute to make 1h
+},1000*60*10) // repeat every 60 minutes work my 1000ms * 60s to make 1 minute then *60 minute to make 10minutes
   function updateUVIndex() {
     var currentHour = new Date().getHours();
     var items = document.getElementsByClassName('hourly-uv-item');
