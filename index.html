@@ -58,13 +58,14 @@ body {
 
 <div class="weather-container">
     <div>
-        <h2>Weather Information</h2>
+        <h2>Température</h2>
         <i class="bx bxs-sun" id="weather-icon"></i>
     </div>
     <div id="today-weather">
         
         <h3>Aujourd'hui:</h3><div id="temperature">Temperature: 16.1°C</div>
         <div id="uv-index">UV Index: 5.1</div>
+        <div id='hourly-uv-index'></div>
     </div>
     <div id="tomorrow-weather">
         <h3>Demain</h3>
@@ -76,7 +77,6 @@ body {
 <div id="date"></div>
 <div class="Info">
   <h3 id='batterie'></h3>
-  <div id='hourly-uv-index'></div>
   <label><input onclick='toggleLock()' id='lock' type="checkbox" value="keep screen alive"> keep screen alive</label>  
   <button onclick="fullscreen()">FullScreen</button>
 </div>
@@ -331,7 +331,7 @@ function displayHourlyUVIndex(data) {
         const hour = i;
 
         const listItem = document.createElement('p');
-        listItem.innerText = `${hour}:00 - UV Index: ${uvIndex}`;
+        listItem.innerText = `UV actuel: ${uvIndex}`;
         listItem.classList.add('hourly-uv-item')
         listItem.dataset.hour = hour
         hourlyUVIndexContainer.appendChild(listItem);
