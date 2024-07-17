@@ -78,6 +78,7 @@ body {
   <h3 id='batterie'></h3>
   <div id='hourly-uv-index'></div>
   <label><input onclick='toggleLock()' id='lock' type="checkbox" value="keep screen alive"> keep screen alive</label>  
+  <button onclick="fullscreen()"></button>
 </div>
 <script>
 function createPopup(title, text) {
@@ -208,6 +209,9 @@ function release() {
     }
   }
     document.getElementById('video').pause()
+  function fullscreen() {
+    document.body.requestFullscreen();
+  }
     const latitude = 51.5074;
     const longitude = -0.1278;
 function getLocation() {
