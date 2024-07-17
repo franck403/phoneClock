@@ -8,3 +8,18 @@
     font-size: 4em;
     margin-bottom: 15px;
 }
+
+
+.middle {
+    border-radius:10px;
+    background:
+  linear-gradient(180deg, rgb(0 0 0) 0%, rgb(0 0 0) 96%, rgb(0 0 0) 100%),
+  linear-gradient(to bottom, #656565 20%, #000000 65%),
+  #656565;
+    background-clip: content-box, border-box, border-box, border-box;
+    background-origin: content-box, border-box, border-box, border-box;
+    display: inline-block;
+    padding: 0px;
+    border-radius: 20px;
+    border: solid 6px transparent;
+}
