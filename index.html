@@ -409,28 +409,25 @@ navigator.getBattery().then((battery) => {
     updateChargeInfo();
   });
   function updateChargeInfo() {
-  var batterie = document.getElementById('batterie')
-    batterie.innerText("Battery en charge ? " + (battery.charging ? "Oui" : "Non"));
+    document.getElementById('batterie').innerText = "Battery en charge ? " + (battery.charging ? "Oui" : "Non");
   }
 
   battery.addEventListener("levelchange", () => {
     updateLevelInfo();
   });
   function updateLevelInfo() {
-  var batterie = document.getElementById('batterie')
-    batterie.innerText("Niveau de batterie : " + battery.level * 100 + "%");
+    document.getElementById('batterie').innerText."Niveau de batterie : " + battery.level * 100 + "%";
   }
 
   battery.addEventListener("chargingtimechange", () => {
     updateChargingInfo();
   });
   function updateChargingInfo() {
-  var batterie = document.getElementById('batterie')
-    batterie.innerText(
+    document.getElementById('batterie').innerText = 
       "Temps avant charge de la batterie : " +
         battery.chargingTime +
         " secondes",
-    );
+    ;
   }
 
   battery.addEventListener("dischargingtimechange", () => {
