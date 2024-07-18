@@ -426,8 +426,7 @@ navigator.getBattery().then((battery) => {
     document.getElementById('batterie').innerText = 
       "Temps avant charge de la batterie : " +
         battery.chargingTime +
-        " secondes",
-    ;
+        " secondes"
   }
 
   battery.addEventListener("dischargingtimechange", () => {
