@@ -416,7 +416,7 @@ navigator.getBattery().then((battery) => {
     updateLevelInfo();
   });
   function updateLevelInfo() {
-    document.getElementById('batterie').innerText."Niveau de batterie : " + battery.level * 100 + "%";
+    document.getElementById('batterie').innerText = "Niveau de batterie : " + battery.level * 100 + "%";
   }
 
   battery.addEventListener("chargingtimechange", () => {
