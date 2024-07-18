@@ -397,7 +397,6 @@ function deselect(e) {
 }
 
 
-  var batterie = document.getElementById('batterie')
 navigator.getBattery().then((battery) => {
   function updateAllBatteryInfo() {
     updateChargeInfo();
@@ -410,6 +409,7 @@ navigator.getBattery().then((battery) => {
     updateChargeInfo();
   });
   function updateChargeInfo() {
+  var batterie = document.getElementById('batterie')
     batterie.innerText("Battery en charge ? " + (battery.charging ? "Oui" : "Non"));
   }
 
@@ -417,6 +417,7 @@ navigator.getBattery().then((battery) => {
     updateLevelInfo();
   });
   function updateLevelInfo() {
+  var batterie = document.getElementById('batterie')
     batterie.innerText("Niveau de batterie : " + battery.level * 100 + "%");
   }
 
@@ -424,6 +425,7 @@ navigator.getBattery().then((battery) => {
     updateChargingInfo();
   });
   function updateChargingInfo() {
+  var batterie = document.getElementById('batterie')
     batterie.innerText(
       "Temps avant charge de la batterie : " +
         battery.chargingTime +
