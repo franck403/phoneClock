@@ -396,6 +396,13 @@ function deselect(e) {
   });
 }
 
+function convertSeconds(seconds) {
+    const hours = Math.floor(seconds / 3600);
+    const remainingAfterHours = seconds % 3600;
+    const minutes = Math.floor(remainingAfterHours / 60);
+    const remainingAfterMinutes = remainingAfterHours % 60;
+    return [hours, minutes, remainingAfterMinutes];
+}
 
 navigator.getBattery().then((battery) => {
   function updateAllBatteryInfo() {
@@ -423,10 +430,10 @@ navigator.getBattery().then((battery) => {
     updateChargingInfo();
   });
   function updateChargingInfo() {
-    document.getElementById('batterie').innerText = 
-      "Temps avant charge de la batterie : " +
-        battery.chargingTime +
-        " secondes"
+    var [hours, minutes, seconds] = convertSeconds(battery.chargingTime);i
+    if (battery.chargingTime != 0) {
+      document.getElementById('batterie').innerText = `${hours}h${minutes} avant la recharge complète`      
+    }
   }
 
   battery.addEventListener("dischargingtimechange", () => {
