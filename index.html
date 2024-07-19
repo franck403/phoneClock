@@ -60,7 +60,7 @@ body {
     border: 4px solid #000000;
     padding: 10px;
   }
-  cssBatterie {
+  .cssBatterie {
     position:fixed;
     left:5px;
     bottom:5px;
@@ -70,12 +70,12 @@ body {
   height: calc(28px + 160px);
   --height: calc(100% - 24px);
   --width: calc(100% - 12px);
-  --background: white;
+  --background: black;
   --visbility: hidden;
   --backgroundEnd: green;
   --oldmiddle: 0%;
   --middle: 0%;
-  --border: black;
+  --border: white;
   padding-top:1rem;
   overflow:hidden;
 }
@@ -84,7 +84,7 @@ body {
   content: "100%";
   top: calc(0px - (var(--height)) * 2 + 30px - 0.5rem);
   content: attr(data-charge);
-  color: black;
+  color: white;
   font-size:1.5rem;
   font-family:arial, sans-serif;
   font-weight: bold;
