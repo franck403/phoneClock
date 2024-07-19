@@ -523,11 +523,14 @@ navigator.getBattery().then((battery) => {
     updateDischargingInfo();
   }
   updateAllBatteryInfo();
+  setInterval(()=>{
+    updateAllBatteryInfo();
+  },1000*30) // 2 fois par seconde
   battery.addEventListener("chargingchange", () => {
     updateChargeInfo();
   });
   function updateChargeInfo() {
-    batterieChargeState(".cssBatterie", (battery.charging ? true : false);
+    batterieChargeState(".cssBatterie", (battery.charging ? true : false));
   }
 
   battery.addEventListener("levelchange", () => {
@@ -541,7 +544,7 @@ navigator.getBattery().then((battery) => {
     updateChargingInfo();
   });
   function updateChargingInfo() {
-    var [hours, minutes, seconds] = convertSeconds(battery.chargingTime);i
+    var [hours, minutes, seconds] = convertSeconds(battery.chargingTime);
     if (battery.chargingTime != 0) {
       document.getElementById('batterie').innerText = `${hours}h${minutes} avant la recharge complète`      
     }
@@ -551,7 +554,10 @@ navigator.getBattery().then((battery) => {
     updateDischargingInfo();
   });
   function updateDischargingInfo() {
-    document.getElementById('batterie').innerText = "Autonomie sur batterie : " + battery.dischargingTime + " secondes",
+    var [hours, minutes, seconds] = convertSeconds(battery.dischargingTime);
+    if (battery.dischargingTime != 0) {
+      document.getElementById('batterie').innerText = `${hours}h${minutes} avant la décharge complète`      
+    }
   }
 });
 
