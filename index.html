@@ -184,6 +184,18 @@ body {
   </div>
 </div>
 <script>
+  if ('serviceWorker' in navigator) {
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('/service-worker.js')
+      .then(registration => {
+        console.log('Service Worker registered:', registration);
+      })
+      .catch(error => {
+        console.error('Service Worker registration failed:', error);
+      });
+  });
+}
+
 function createPopup(title, text) {
     // Create the popup div
     var popup = document.createElement('div');
