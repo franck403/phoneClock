@@ -528,7 +528,7 @@ navigator.getBattery().then((battery) => {
   updateAllBatteryInfo();
   setInterval(()=>{
     updateAllBatteryInfo();
-  },1000*30) // 2 fois par seconde
+  },1000)
   battery.addEventListener("chargingchange", () => {
     updateChargeInfo();
   });
