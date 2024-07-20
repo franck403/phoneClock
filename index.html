@@ -527,7 +527,7 @@ navigator.getBattery().then((battery) => {
   }
   updateAllBatteryInfo();
   setInterval(()=>{
-    updateAllBatteryInfo();
+    updateLevelInfo();
   },1000)
   battery.addEventListener("chargingchange", () => {
     updateChargeInfo();
@@ -548,7 +548,6 @@ navigator.getBattery().then((battery) => {
   });
   function updateChargingInfo() {
     if (battery.chargingTime != 0) {
-    
       document.getElementById('batterie').innerText = `${convertSeconds(battery.chargingTime)} avant la recharge complète`      
     }
   }
