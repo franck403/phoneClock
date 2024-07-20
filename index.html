@@ -486,12 +486,14 @@ function deselect(e) {
   });
 }
 
-function convertSeconds(seconds) {
-    const hours = Math.floor(seconds / 3600);
-    const remainingAfterHours = seconds % 3600;
-    const minutes = Math.floor(remainingAfterHours / 60);
-    const remainingAfterMinutes = remainingAfterHours % 60;
-    return [hours, minutes, remainingAfterMinutes];
+function secondsToHms(d) {
+    d = Number(d);
+    var h = Math.floor((d % 86400) / 3600); // hours
+    var m = Math.floor(((d % 86400) % 3600) / 60); // minutes
+    var s = Math.floor(((d % 86400) % 3600) % 60); // seconds
+    var j = Math.floor(d / 3600 / 24); // days
+
+    return j + " jour " + h + " heures et " + m + " minutes";
 }
   function batterieChangeValue(selector, value) {
   document
@@ -545,9 +547,9 @@ navigator.getBattery().then((battery) => {
     updateChargingInfo();
   });
   function updateChargingInfo() {
-    var [hours, minutes, seconds] = convertSeconds(battery.chargingTime);
     if (battery.chargingTime != 0) {
-      document.getElementById('batterie').innerText = `${hours}h${minutes} avant la recharge complète`      
+    
+      document.getElementById('batterie').innerText = `${convertSeconds(battery.chargingTime)} avant la recharge complète`      
     }
   }
 
@@ -555,9 +557,8 @@ navigator.getBattery().then((battery) => {
     updateDischargingInfo();
   });
   function updateDischargingInfo() {
-    var [hours, minutes, seconds] = convertSeconds(battery.dischargingTime);
     if (battery.dischargingTime != 0) {
-      document.getElementById('batterie').innerText = `${hours}h${minutes} avant la décharge complète`      
+      document.getElementById('batterie').innerText = `${convertSeconds(battery.chargingTime)} avant la décharge complète`      
     }
   }
 });
