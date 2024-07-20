@@ -249,8 +249,20 @@ function updateClock() {
     
 }
 
+
+function batteryUpdate() {
+  navigator.getBattery().then((battery) => {
+    batterieChargeState(".cssBatterie", (battery.charging ? true : false));
+    batterieChangeValue(".cssBatterie", battery.level * 100);
+    if (battery.dischargingTime != 0) {
+      document.getElementById('batterie').innerText = `${convertSeconds(battery.chargingTime)} avant la décharge complète`      
+    }
+  }
+  });
+}
 // Update the clock every second
 setInterval(updateClock, 1000);
+setInterval(batteryUpdate, 1000);
 
 // Update the clock immediately to avoid delay
 updateClock();
@@ -516,8 +528,6 @@ function batterieChargeState(selector, value) {
     document.querySelector(selector).style.setProperty("--visbility", "hidden");
   }
 }
-
-
 navigator.getBattery().then((battery) => {
   function updateAllBatteryInfo() {
     updateChargeInfo();
@@ -526,9 +536,6 @@ navigator.getBattery().then((battery) => {
     updateDischargingInfo();
   }
   updateAllBatteryInfo();
-  setInterval(()=>{
-    updateLevelInfo();
-  },1000)
   battery.addEventListener("chargingchange", () => {
     updateChargeInfo();
   });
