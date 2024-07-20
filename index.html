@@ -509,7 +509,7 @@ function deselect(e) {
   });
 }
 
-function secondsToHms(d) {
+function convertSeconds(d) {
     d = Number(d);
     var h = Math.floor((d % 86400) / 3600); // hours
     var m = Math.floor(((d % 86400) % 3600) / 60); // minutes
