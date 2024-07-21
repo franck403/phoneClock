@@ -34,7 +34,7 @@ self.addEventListener('install', event => {
 
 // Fetch event listener: Handle requests based on network availability
 self.addEventListener('fetch', event => {
-  event.respondWith(() => {
+  event.respondWith(function(){
     if (event.request.url.includes('/externalAsset/')) {
           const url = event.request.url.replace('/externalAsset/','').replaceAll('/','')
           console.log(url)
