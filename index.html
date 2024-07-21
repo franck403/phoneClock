@@ -3,6 +3,19 @@
 <head>
 <meta charset="UTF-8" />
 <title>Clock - By Geoloup</title>
+<script>
+  if ('serviceWorker' in navigator) {
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('sw.js')
+      .then(registration => {
+        console.log('Service Worker registered:', registration);
+      })
+      .catch(error => {
+        console.error('Service Worker registration failed:', error);
+      });
+  });
+}
+</script>
 <link rel="shortcut icon" href="clock.png">
 <link rel="manifest" href="manifest.json" />
 <link href='externalAsset/boxicon.min.css' rel='stylesheet'>
@@ -184,17 +197,7 @@ body {
   </div>
 </div>
 <script>
-  if ('serviceWorker' in navigator) {
-  window.addEventListener('load', () => {
-    navigator.serviceWorker.register('sw.js')
-      .then(registration => {
-        console.log('Service Worker registered:', registration);
-      })
-      .catch(error => {
-        console.error('Service Worker registration failed:', error);
-      });
-  });
-}
+  
 
 function createPopup(title, text) {
     // Create the popup div
