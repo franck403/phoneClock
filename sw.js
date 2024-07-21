@@ -35,7 +35,7 @@ function externalAssetsFunc(event) {
         const url = event.request.url.replace('/externalAsset/','').replaceAll('/','')
         event.respondWith(
           caches.match(externalAssetsURl[externalAssets.indexOf('boxicon.min.css')]).then(response => {
-            return response || fetch(event.request);
+            return response;
           })
         );
 }
@@ -50,10 +50,6 @@ self.addEventListener('fetch', event => {
           return externalAssetsFunc(event)
       }
       return caches.match(event.request).then(response => {
-        if (response) {
-          return caches.match('/offline.html');
-        }
-        // If both cache and network fail, show a custom offline page (for navigate requests)
         if (event.request.mode === 'navigate') {
           return caches.match('/offline.html');
         }
@@ -65,10 +61,13 @@ self.addEventListener('fetch', event => {
             return externalAssetsFunc(event)
         }
         if (networkResponse && networkResponse.ok) {
-          // If the content is successfully fetched from the server, update the cache
           caches.open(CACHE_NAME)
             .then(cache => {
-              cache.put(event.request, networkResponse.clone());
+              try {
+                cache.put(event.request, networkResponse.clone());                
+              } catch {
+                console.log('elements already added')
+              }
             });
         }
         return networkResponse;
