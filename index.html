@@ -266,8 +266,10 @@ function batteryUpdate() {
   navigator.getBattery().then((battery) => {
     batterieChargeState(".cssBatterie", (battery.charging ? true : false));
     batterieChangeValue(".cssBatterie", battery.level * 100);
-    if (battery.dischargingTime != 0) {
-      document.getElementById('batterie').innerText = `${convertSeconds(battery.chargingTime)} avant la décharge complète`      
+    if ((battery.charging ? true : false) == true) {
+      document.getElementById('batterie').innerText = `${convertSeconds(battery.chargingTime)} avant la recharge complète`  
+    } else {
+      document.getElementById('batterie').innerText = `${convertSeconds(battery.dischargingTime)} avant la décharge complète`  
     }
   });
 }
