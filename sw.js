@@ -1,10 +1,10 @@
 // Define the cache name and an array of resources to cache
 const CACHE_NAME = 'clock-v1';
 const URLS_TO_CACHE = [
-  '/',
-  '/index.html',
-  '/styles.css',
-  '/offline.html'
+  '/phoneClock/',
+  'index.html',
+  'styles.css',
+  'offline.html'
 ];
 
 var externalAssets = ['boxicon.min.css']
