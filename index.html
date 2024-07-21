@@ -262,20 +262,9 @@ function updateClock() {
 }
 
 
-function batteryUpdate() {
-  navigator.getBattery().then((battery) => {
-    batterieChargeState(".cssBatterie", (battery.charging ? true : false));
-    batterieChangeValue(".cssBatterie", battery.level * 100);
-    if ((battery.charging ? true : false) == true) {
-      document.getElementById('batterie').innerText = `${convertSeconds(battery.chargingTime)} avant la recharge complète`  
-    } else {
-      document.getElementById('batterie').innerText = `${convertSeconds(battery.dischargingTime)} avant la décharge complète`  
-    }
-  });
-}
+
 // Update the clock every second
 setInterval(updateClock, 1000);
-setInterval(batteryUpdate, 1000);
 
 // Update the clock immediately to avoid delay
 updateClock();
@@ -512,6 +501,7 @@ function deselect(e) {
 }
 
 function convertSeconds(d) {
+    popup('Battery',d)
     d = Number(d);
     var h = Math.floor((d % 86400) / 3600); // hours
     var m = Math.floor(((d % 86400) % 3600) / 60); // minutes
@@ -520,6 +510,19 @@ function convertSeconds(d) {
 
     return j + " jour " + h + " heures et " + m + " minutes";
 }
+  function batteryUpdate() {
+  navigator.getBattery().then((battery) => {
+    batterieChargeState(".cssBatterie", (battery.charging ? true : false));
+    batterieChangeValue(".cssBatterie", battery.level * 100);
+    if ((battery.charging ? true : false) == true) {
+      document.getElementById('batterie').innerText = `${convertSeconds(battery.chargingTime)} avant la recharge complète`  
+    } else {
+      document.getElementById('batterie').innerText = `${convertSeconds(battery.dischargingTime)} avant la décharge complète`  
+    }
+  });
+}
+  
+setInterval(batteryUpdate, 1000);
   function batterieChangeValue(selector, value) {
   document
     .querySelector(selector)
