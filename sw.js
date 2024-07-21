@@ -37,7 +37,7 @@ self.addEventListener('fetch', event => {
   event.respondWith(
     // Try to fetch the content from the server
     fetch(event.request).catch(() => {
-      if (event.request.url.startsWith('/externalAsset/')) {
+      if (event.request.url.includes('/externalAsset/')) {
           const url = event.request.url.replace('/externalAsset/','').replaceAll('/','')
           console.log(url)
           console.log(externalAssetsURl[externalAssets.indexOf('boxicon.min.css')])
