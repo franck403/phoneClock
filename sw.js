@@ -14,7 +14,7 @@ self.addEventListener('install', event => {
     caches.open('external-assets').then(cache => {
       // cache the external-assets
       return cache.addAll([
-        'https://unpkg.com/boxicons@2.1.2/css/boxicons.min.css'
+        'https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css'
       ]);
     })
   );
@@ -34,7 +34,7 @@ self.addEventListener('fetch', event => {
     fetch(event.request).catch(() => {
       if (event.request.url.includes('/externalAsset/boxicons.min.css')) {
           event.respondWith(
-            caches.match('https://unpkg.com/boxicons@2.1.2/css/boxicons.min.css').then(response => {
+            caches.match('https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css').then(response => {
               return response || fetch(event.request);
             })
           );
