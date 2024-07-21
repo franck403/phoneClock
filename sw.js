@@ -59,18 +59,20 @@ self.addEventListener('fetch', event => {
         console.log(event.request.url)
         if (event.request.url.includes('/externalAsset/')) {
             return externalAssetsFunc(event)
-        }
+        } else {
+        const clonedResponse = networkResponse.clone()
         if (networkResponse && networkResponse.ok) {
-          caches.open(CACHE_NAME)
-            .then(cache => {
-              try {
-                cache.put(event.request, networkResponse.clone());                
-              } catch {
-                console.log('elements already added')
-              }
-            });
+            caches.open(CACHE_NAME)
+              .then(cache => {
+                try {
+                  cache.put(event.request,clonedResponse);                
+                } catch {
+                  console.log('elements already added')
+                }
+              });
+          }
+          return networkResponse;          
         }
-        return networkResponse;
       })
   );
 });
