@@ -34,7 +34,7 @@ self.addEventListener('install', event => {
 
 // Fetch event listener: Handle requests based on network availability
 self.addEventListener('fetch', event => {
-  event.respondWith(
+  event.respondWith(() => {
     if (event.request.url.includes('/externalAsset/')) {
           const url = event.request.url.replace('/externalAsset/','').replaceAll('/','')
           console.log(url)
@@ -45,28 +45,22 @@ self.addEventListener('fetch', event => {
               return response || fetch(event.request);
             })
           );
+      } else {
+          fetch(event.request).catch(() => {      
+              if (event.request.mode === 'navigate') {
+                return caches.match('/offline.html');
+              }
+          })
+          .then(networkResponse => {
+            if (networkResponse && networkResponse.ok) {
+              // If the content is successfully fetched from the server, update the cache
+              caches.open(CACHE_NAME)
+                .then(cache => {
+                  cache.put(event.request, networkResponse.clone());
+                });
+            }
+            return networkResponse;
+        })
       }
-    // Try to fetch the content from the server
-    fetch(event.request).catch(() => {      
-      return caches.match(event.request).then(response => {
-        if (response) {
-          return caches.match('/offline.html');
-        }
-        // If both cache and network fail, show a custom offline page (for navigate requests)
-        if (event.request.mode === 'navigate') {
-          return caches.match('/offline.html');
-        }
-      });
-    })
-      .then(networkResponse => {
-        if (networkResponse && networkResponse.ok) {
-          // If the content is successfully fetched from the server, update the cache
-          caches.open(CACHE_NAME)
-            .then(cache => {
-              cache.put(event.request, networkResponse.clone());
-            });
-        }
-        return networkResponse;
-      })
-  );
+  }());
 });
