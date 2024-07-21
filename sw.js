@@ -31,35 +31,47 @@ self.addEventListener('install', event => {
   );
   
 });
+function externalAssetsFunc(event) {
+        const url = event.request.url.replace('/externalAsset/','').replaceAll('/','')
+        event.respondWith(
+          caches.match(externalAssetsURl[externalAssets.indexOf('boxicon.min.css')]).then(response => {
+            return response || fetch(event.request);
+          })
+        );
+}
 
 // Fetch event listener: Handle requests based on network availability
 self.addEventListener('fetch', event => {
-  event.respondWith(function(){
-    if (event.request.url.includes('/externalAsset/')) {
-          const url = event.request.url.replace('/externalAsset/','').replaceAll('/','')
-          console.log(url)
-          console.log(externalAssetsURl[externalAssets.indexOf('boxicon.min.css')])
-          console.log(externalAssetsURl[externalAssets.indexOf(url)])
-          event.respondWith(
-            caches.match(externalAssetsURl[externalAssets.indexOf('boxicon.min.css')]).then(response => {
-              return response || fetch(event.request);
-            })
-          );
-      } else {
-          fetch(event.request).catch(() => {      
-              if (event.request.mode === 'navigate') {
-                return caches.match('/offline.html');
-              }
-          })
-          .then(networkResponse => {
-            if (networkResponse && networkResponse.ok) {
-              // If the content is successfully fetched from the server, update the cache
-              caches.open(CACHE_NAME)
-                .then(cache => {
-                  cache.put(event.request, networkResponse.clone());
-                });
-            }event.respondWith(networkResponse);
-        })
+  event.respondWith(
+    // Try to fetch the content from the server
+    fetch(event.request).catch(() => {
+      console.log(event.request.url)
+      if (event.request.url.includes('/externalAsset/')) {
+          return externalAssetsFunc(event)
       }
-  }());
+      return caches.match(event.request).then(response => {
+        if (response) {
+          return caches.match('/offline.html');
+        }
+        // If both cache and network fail, show a custom offline page (for navigate requests)
+        if (event.request.mode === 'navigate') {
+          return caches.match('/offline.html');
+        }
+      });
+    })
+      .then(networkResponse => {      
+        console.log(event.request.url)
+        if (event.request.url.includes('/externalAsset/')) {
+            return externalAssetsFunc(event)
+        }
+        if (networkResponse && networkResponse.ok) {
+          // If the content is successfully fetched from the server, update the cache
+          caches.open(CACHE_NAME)
+            .then(cache => {
+              cache.put(event.request, networkResponse.clone());
+            });
+        }
+        return networkResponse;
+      })
+  );
 });
