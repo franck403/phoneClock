@@ -3,7 +3,7 @@ const CACHE_NAME = 'clock-v1';
 const URLS_TO_CACHE = [
   '/phoneClock/',
   'index.html',
-  'styles.css',
+  'style.css',
   'offline.html'
 ];
 
