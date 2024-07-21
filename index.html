@@ -514,8 +514,13 @@ function convertSeconds(d) {
   navigator.getBattery().then((battery) => {
     batterieChargeState(".cssBatterie", (battery.charging ? true : false));
     batterieChangeValue(".cssBatterie", battery.level * 100);
-    if ((battery.charging ? true : false) == true) {
-      document.getElementById('batterie').innerText = `${convertSeconds(battery.chargingTime)} avant la recharge complète`  
+    var state = battery.charging ? true : false
+    if (state) {
+      if (chargingTime == 0) {
+        document.getElementById('batterie').innerText = `la batterie est rechargé au complet`          
+      } else {
+        document.getElementById('batterie').innerText = `${convertSeconds(battery.chargingTime)} avant la recharge complète`          
+      }
     } else {
       document.getElementById('batterie').innerText = `${convertSeconds(battery.dischargingTime)} avant la décharge complète`  
     }
@@ -565,19 +570,12 @@ navigator.getBattery().then((battery) => {
   function updateLevelInfo() {
     batterieChangeValue(".cssBatterie", battery.level * 100);
   }
-
-  battery.addEventListener("chargingtimechange", () => {
-    updateChargingInfo();
-  });
   function updateChargingInfo() {
     if (battery.chargingTime != 0) {
       document.getElementById('batterie').innerText = `${convertSeconds(battery.chargingTime)} avant la recharge complète`      
     }
   }
 
-  battery.addEventListener("dischargingtimechange", () => {
-    updateDischargingInfo();
-  });
   function updateDischargingInfo() {
     if (battery.dischargingTime != 0) {
       document.getElementById('batterie').innerText = `${convertSeconds(battery.chargingTime)} avant la décharge complète`      
