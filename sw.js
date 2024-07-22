@@ -1,78 +1,47 @@
 // Define the cache name and an array of resources to cache
 const CACHE_NAME = 'clock-v1';
 const URLS_TO_CACHE = [
-  '/phoneClock/',
+  '/phoneClock',
   'index.html',
-  'style.css',
+  'styles.css',
   'offline.html'
 ];
 
-var externalAssets = ['boxicon.min.css']
-var externalAssetsURl = ['https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css']
-
-function addExternalAsset(name,url) {
-  externalAssets.push(name.replaceAll('/',''))
-  externalAssetsURl.push(url)
-}
-
 // Install event listener: Cache the static resources during installation
 self.addEventListener('install', event => {
-    event.waitUntil(
-    caches.open('external-assets').then(cache => {
-      // cache the external-assets
-      return cache.addAll(externalAssetsURl);
-    })
-  );
   event.waitUntil(
     caches.open(CACHE_NAME)
       .then(cache => {
         return cache.addAll(URLS_TO_CACHE);
       })
   );
-  
 });
-function externalAssetsFunc(event) {
-        const url = event.request.url.replace('/externalAsset/','').replaceAll('/','')
-        event.respondWith(
-          caches.match(externalAssetsURl[externalAssets.indexOf('boxicon.min.css')]).then(response => {
-            return response;
-          })
-        );
-}
 
 // Fetch event listener: Handle requests based on network availability
 self.addEventListener('fetch', event => {
   event.respondWith(
     // Try to fetch the content from the server
     fetch(event.request).catch(() => {
-      console.log(event.request.url)
-      if (event.request.url.includes('/externalAsset/')) {
-          return externalAssetsFunc(event)
-      }
+      // If fetch fails (user is offline), look for a cached version
       return caches.match(event.request).then(response => {
+        if (response) {
+          return caches.match('/offline.html');
+        }
+        // If both cache and network fail, show a custom offline page (for navigate requests)
         if (event.request.mode === 'navigate') {
           return caches.match('/offline.html');
         }
       });
     })
-      .then(networkResponse => {      
-        console.log(event.request.url)
-        if (event.request.url.includes('/externalAsset/')) {
-            return externalAssetsFunc(event)
-        } else {
-        const clonedResponse = networkResponse.clone()
+      .then(networkResponse => {
         if (networkResponse && networkResponse.ok) {
-            caches.open(CACHE_NAME)
-              .then(cache => {
-                try {
-                  cache.put(event.request,clonedResponse);                
-                } catch {
-                  console.log('elements already added')
-                }
-              });
-          }
-          return networkResponse;          
+          // If the content is successfully fetched from the server, update the cache
+          caches.open(CACHE_NAME)
+            .then(cache => {
+              cache.put(event.request, networkResponse.clone());
+            });
         }
+        return networkResponse;
       })
   );
 });
