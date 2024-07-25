@@ -267,8 +267,6 @@ function updateClock() {
 
 
 // Update the clock every second
-setInterval(updateClock, 1000);
-
 // Update the clock immediately to avoid delay
 updateClock();
 
@@ -475,11 +473,7 @@ function displayWeatherData(data) {
 getWeatherData()
     .then(data => displayWeatherData(data))
     .catch(error => console.error(error));
-setInterval(()=> {
-getWeatherData()
-    .then(data => displayWeatherData(data))
-    .catch(error => console.error(error));
-},1000*60*10) // repeat every 60 minutes work my 1000ms * 60s to make 1 minute then *60 minute to make 10minutes
+
   function updateUVIndex() {
     var currentHour = new Date().getHours();
     var items = document.getElementsByClassName('hourly-uv-item');
@@ -493,7 +487,6 @@ getWeatherData()
       }
     }
   }
-    setInterval(updateUVIndex, 1000*60); // 60000 milliseconds = 1 minute
 function deselect(e) {
   var popElements = document.querySelectorAll('.pop');
   popElements.forEach(function(pop) {
@@ -533,8 +526,22 @@ function convertSeconds(d) {
     }
   });
 }
-  
-setInterval(batteryUpdate, 1000);
+ // timeout loop 
+function seconds() {
+  updateClock()
+  try {
+    batteryUpdate()
+  } catch {}
+}
+function hour() {
+  getWeatherData()
+  .then(data => displayWeatherData(data))
+  .catch(error => console.error(error));
+  updateUVIndex()
+}
+setInterval(hour,1000*60*10)
+setInterval(seconds, 1000);
+  // end of loops
   function batterieChangeValue(selector, value) {
   document
     .querySelector(selector)
