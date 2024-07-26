@@ -290,7 +290,7 @@ function frenchGreeting() {
   if(navigator.wakeLock != null || navigator.wakeLock != undefined) {
     try {
        screenLock = await navigator.wakeLock.request();
-    createPopup('Keep screen alive','screen is keep alive by wakeLock. On most device it should take not that buch batterie')
+    createPopup('Keep screen alive','screen is keep alive by wakeLock. On most device it should take not that much batterie. Note around 8-9% per hour on a mobile for a hour')
     } catch(err) {
        console.log(err.name, err.message);
        document.getElementById('video').play()
@@ -517,12 +517,7 @@ function convertSeconds(d) {
         document.getElementById('batterie').innerText = `${convertSeconds(battery.chargingTime)} avant la recharge complète`          
       }
     } else {
-      if (battery.chargingTime == 0) { 
-        document.getElementById('batterie').innerText = ''
-        
-      } else {
         document.getElementById('batterie').innerText = `${convertSeconds(battery.dischargingTime)} avant la décharge complète`          
-      }
     }
   });
 }
@@ -540,7 +535,7 @@ function hour() {
   updateUVIndex()
 }
 setInterval(hour,1000*60*10)
-setInterval(seconds, 1000);
+setInterval(seconds, 10000);
   // end of loops
   function batterieChangeValue(selector, value) {
   document
