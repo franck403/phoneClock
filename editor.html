@@ -1,0 +1,328 @@
+<html><head>
+    <meta charset="UTF-8">
+    
+    <style id="webmakerstyle">
+    body {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction:column;
+        height: 100vh;
+        margin: 0;
+        overflow:scroll;
+        background-color: #f0f0f0;
+    }
+    
+    .container {
+        --rows    :3;
+        --columns :5;
+        --rowSize:100px;
+        --columnsSize :100px;
+        display: grid;
+        grid-template-columns: repeat(var(--columns), var(--columnsSize));
+        grid-template-rows: repeat(var(--rows), var(--rowsSize));
+        gap: 10px;
+        width : calc(108px * var(--columns));
+        height: calc(107px * var(--rows));
+        background-color: #fff;
+        padding: 5px;
+        border: 1px solid #ccc;
+    }
+    
+    .container > div {
+        background-color: #e0e0e0;
+        border: 1px solid #ccc;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        position: relative;
+    }
+    
+    .setting {
+        z-index:2;
+        position:absolute;
+        background-color: #007BFF;
+        color: white;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: calc(102px * 2);
+        margin-right:-110px;
+        height: 95px;
+        border: 2px solid #0056b3;
+        cursor: move;
+    }
+    .batterie {
+        z-index:2;
+        position:absolute;
+        background-color: #007BFF;
+        color: white;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 95px;
+        height: 95px;
+        border: 2px solid #0056b3;
+        cursor: move;
+    }
+    
+    .clock {
+        z-index:2;
+        position:absolute;
+        background-color: #454545;
+        color: white;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: calc(105px * 3);
+        height: 95px;
+        border: 2px solid black;
+        cursor: move;
+    }
+    
+    .meteo {
+        z-index:2;
+        position:absolute;
+        background-color: #454545;
+        color: white;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: calc(105px * 3);
+        height: 95px;
+        border: 2px solid black;
+        cursor: move;
+    }
+    .draggable.drag-over {
+        border: 2px dashed red;
+    }
+    
+    .draggable.dragging {
+        opacity: 0.5;
+    }
+    
+    .container > div.drag-over {
+        border: 2px dashed red;
+    }
+    
+    .innerMenu > div {
+        width: 320px;
+        height:100px;
+    }
+    .innerMenu > div > div {
+      position:fixed;
+    }
+    
+    .bx-trash {
+      background:rgba(0, 0, 0, 0.20);
+      padding:6px;
+      font-size:1.25rem;
+      border-radius:5px;
+      position:absolute;
+      top:5px;
+      right:5px;
+    }
+    
+    .bx-trash:hover {
+      cursor:default;
+      transition:1s;
+      background:rgba(0, 0, 0, 0.50);
+      padding:6px;
+      font-size:1.25rem;
+      border-radius:5px;
+      position:absolute;
+      top:5px;
+      right:5px;
+    }
+    
+    .menu {
+      text-align:center;
+      font-family:sans-serif;
+      font-weight:bold;
+      font-size:1.25rem;
+    }
+    .innerMenu {
+      display:none;
+      visibility:hidden;
+    }
+    .innerMenuShow {
+        width:90%;
+        background:black;
+        display: flex !important;
+        visibility: visible !important;
+        position: fixed;
+        z-index:3;
+        padding:10px;
+        top: 50%;
+        left:50%;
+        justify-content: center;
+        align-items: center;
+        transform: translate(-50%, -50%);
+        flex-direction: column;
+        align-content: center;
+        flex-wrap: nowrap;
+    }
+    
+    .innerMenuShow > div {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+    
+    .widgetdragHover {
+      margin:0;
+      margin-top:-12px;
+      color:white;
+      width:100%;
+      background:rgb(255,255,255,0.20);
+      text-align:center;
+      padding:10px;
+    }
+    
+    .widgetclose {
+      position:absolute;
+      top:40px;
+      right:5px;
+      padding:5px;
+      border-radius:5px;
+      font-size:1.25rem;
+      color:white;
+      background:rgb(255,255,255,0.2);
+    }
+    .widgetclose:hover {
+      background:rgb(255,255,255,0.4);
+    }
+    </style>
+    </head>
+    <body>
+    <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet">
+    <div class="container" id="grid"></div>
+    <div class="widget">
+      <div class="menu" onclick="widget()">
+        <p>Add a new widget</p>
+      </div>
+      <div class="menu" onclick="exportResult()">
+        <p>Use this model</p>
+      </div>
+      <div class="innerMenu" id="widget">
+        <p ondragover="widgetDragOver()" class="widgetdragHover">Drag hover here to add widget</p>
+        <i onclick="widgetDragOver()" class="bx bx-x widgetclose"></i>
+      <div>
+        <div id="drag1" class="clock" draggable="true" ondragstart="drag(event)">
+          Clock<i class="bx bx-trash" onclick="deleteThis(this)"></i>
+        </div>
+        <div id="drag1" class="clock" draggable="true" ondragstart="drag(event)">
+          Clock<i class="bx bx-trash"></i>
+        </div>
+      </div>
+      <div>
+        <div id="drag2" class="setting" draggable="true" ondragstart="drag(event)">
+          Setting<i class="bx bx-trash" onclick="deleteThis(this)"></i>
+        </div>
+        <div id="drag2" class="setting" draggable="true" ondragstart="drag(event)">
+          Setting<i class="bx bx-trash"></i>
+        </div>
+      </div>
+      <div>
+        <div id="drag3" class="meteo" draggable="true" ondragstart="drag(event)">
+          meteo<i class="bx bx-trash" onclick="deleteThis(this)"></i>
+        </div>
+        <div id="drag3" class="meteo" draggable="true" ondragstart="drag(event)">
+          meteo<i class="bx bx-trash"></i>
+        </div>
+      </div>
+      <div>
+        <div id="drag4" class="batterie" draggable="true" ondragstart="drag(event)">
+          Batterie<i class="bx bx-trash" onclick="deleteThis(this)"></i>
+        </div>
+        <div id="drag4" class="batterie" draggable="true" ondragstart="drag(event)">
+          Batterie<i class="bx bx-trash"></i>
+        </div>
+      </div>
+        </div>
+    </div>
+    
+    
+    <script>for (let i = 0; i < (5*3); i++) {
+      var gridEl = document.createElement('div')
+      gridEl.setAttribute('id',"div1")
+      gridEl.setAttribute('ondrop',"drop(event)")
+      gridEl.setAttribute('ondragover',"allowDrop(event)")
+      gridEl.setAttribute('data-i',i)
+      gridEl.setAttribute('class','mainGrid')
+      document.getElementById('grid').append(gridEl)
+    }
+    
+    function allowDrop(ev) {
+      ev.preventDefault();
+    }
+    
+    function drag(ev) {
+      ev.dataTransfer.setData("text", ev.target.id);
+    }
+    
+    function drop(ev) {
+      ev.preventDefault();
+      var data = ev.dataTransfer.getData("text");
+      ev.target.appendChild(document.getElementById(data));
+    }
+    
+    function widget() {
+      var el = document.getElementById('widget')
+      el.classList.add('innerMenuShow')
+    }
+    
+    function widgetDragOver() {
+      var el = document.getElementById('widget')
+      el.classList.remove('innerMenuShow')
+    }
+    
+    function deleteThis(el) {
+      if (el.parentElement.parentElement.id != 'div1') {} else {
+      el.parentElement.remove()    
+        
+      }
+    }
+    
+    function exportResult() {  
+      localStorage.setItem('editor',exportResultReturn())
+      location.replace('https://franck403.github.io/phoneClock/')
+    }
+    
+    function autoSave() {
+      localStorage.setItem('save',exportResultReturn())
+    }
+    
+    setInterval(autoSave,5000)
+    
+    function exportResultReturn() {
+      var result = []
+      // export time
+      var el = document.getElementById('drag1')
+      result.push(el.parentElement.dataset.i)
+      // export batterie
+      var el = document.getElementById('drag4')
+      result.push(el.parentElement.dataset.i)
+      // export settings
+      var el = document.getElementById('drag2')
+      result.push(el.parentElement.dataset.i)
+      // export meteo
+      var el = document.getElementById('drag3')
+      result.push(el.parentElement.dataset.i)
+      console.log(result)
+      return result.toString()
+    }
+    
+    function loadSave() {
+      var save = localStorage.getItem('save').split(',')
+      var grid = document.querySelectorAll('.mainGrid')
+      grid[save[0]].innerHTML = '<div id="drag1" class="clock" draggable="true" ondragstart="drag(event)">Clock<i class="bx bx-trash" onclick="deleteThis(this)"></i></div>'
+      grid[save[1]].innerHTML = '<div id="drag4" class="batterie" draggable="true" ondragstart="drag(event)">batterie<i class="bx bx-trash" onclick="deleteThis(this)"></i></div>'
+      grid[save[2]].innerHTML = '<div id="drag2" class="setting" draggable="true" ondragstart="drag(event)">Setting<i class="bx bx-trash" onclick="deleteThis(this)"></i></div>'
+      grid[save[3]].innerHTML = '<div id="drag3" class="meteo" draggable="true" ondragstart="drag(event)">meteo<i class="bx bx-trash" onclick="deleteThis(this)"></i></div>'
+    }
+    loadSave()
+    
+</script>
+    
+</body></html>
