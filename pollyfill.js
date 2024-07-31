@@ -15,12 +15,25 @@ document.addEventListener('DOMContentLoaded', () => {
         element.style.boxShadow = 'none';
     };
 
+    const dispatchDragEvent = (element, eventType) => {
+        const event = new CustomEvent(eventType, {
+            bubbles: true,
+            cancelable: true,
+            detail: {
+                clientX: currentElement ? currentElement.offsetLeft + offsetX : 0,
+                clientY: currentElement ? currentElement.offsetTop + offsetY : 0
+            }
+        });
+        element.dispatchEvent(event);
+    };
+
     const onTouchStart = (e) => {
         const touch = e.touches[0];
         offsetX = touch.clientX - currentElement.offsetLeft;
         offsetY = touch.clientY - currentElement.offsetTop;
         isDragging = true;
         addShadow(currentElement);
+        dispatchDragEvent(currentElement, 'dragstart');
     };
 
     const onTouchMove = (e) => {
@@ -29,11 +42,13 @@ document.addEventListener('DOMContentLoaded', () => {
         const touch = e.touches[0];
         currentElement.style.left = `${touch.clientX - offsetX}px`;
         currentElement.style.top = `${touch.clientY - offsetY}px`;
+        dispatchDragEvent(currentElement, 'dragover');
     };
 
     const onTouchEnd = () => {
         isDragging = false;
         removeShadow(currentElement);
+        dispatchDragEvent(currentElement, 'dragend');
         currentElement = null;
     };
 
