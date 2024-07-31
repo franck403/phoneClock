@@ -180,7 +180,7 @@ border-radius:7px;
   <video id='video' width="320" height="240" autoplay loop muted>
     <source src="screen.mp4" type="video/mp4" />
   </video>
-  <i class="bx bx-edit"></i>
+  <i class="bx bx-edit" href="editor.html"></i>
   <div class="weather-container">
     <div>
       <h2>Température</h2>
@@ -555,7 +555,7 @@ border-radius:7px;
     function batterieChangeValue(selector, value) {
       document
         .querySelector(selector)
-        .style.setProperty("--middle", String(100 - value) + "%");
+        .style.setProperty("--middle", String(100 - Math.round(value)) + "%");
       document
         .querySelector(selector)
         .style.setProperty(
