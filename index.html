@@ -481,9 +481,9 @@
       const currentWeatherIcon = weatherIcons[currentWeatherCode] || 'bx-cloud';
 
       document.getElementById('weather-icon').className = `bx ${currentWeatherIcon}`
-      document.getElementById('temperature').innerText = `Température: ${data.current_weather.temperature}°C`;
+      document.getElementById('temperature').innerText = `Température max: ${data.current_weather.temperature}°C`;
       document.getElementById('uv-index').innerText = `UV max: ${data.daily.uv_index_max[0]}`;
-      document.getElementById('tomorrow-temp').innerText = `Tenpérature: ${data.daily.temperature_2m_max[1]}°C`;
+      document.getElementById('tomorrow-temp').innerText = `Température: ${data.daily.temperature_2m_max[1]}°C`;
       document.getElementById('tomorrow-uv').innerText = `UV max : ${data.daily.uv_index_max[1]}`;
     }
 
@@ -526,16 +526,6 @@
       navigator.getBattery().then((battery) => {
         batterieChargeState(".cssBatterie", (battery.charging ? true : false));
         batterieChangeValue(".cssBatterie", battery.level * 100);
-        var state = battery.charging ? false : true
-        if (state) {
-          if (battery.chargingTime == 0) {
-            document.getElementById('batterie').innerText = `la batterie est rechargé au complet`
-          } else {
-            document.getElementById('batterie').innerText = `${convertSeconds(battery.chargingTime)} avant la recharge complète`
-          }
-        } else {
-          document.getElementById('batterie').innerText = `${convertSeconds(battery.dischargingTime)} avant la décharge complète`
-        }
       });
     }
     // timeout loop 
@@ -597,15 +587,11 @@
         batterieChangeValue(".cssBatterie", battery.level * 100);
       }
       function updateChargingInfo() {
-        if (battery.chargingTime != 0) {
-          document.getElementById('batterie').innerText = `${convertSeconds(battery.chargingTime)} avant la recharge complète`
-        }
+        
       }
 
       function updateDischargingInfo() {
-        if (battery.dischargingTime != 0) {
-          document.getElementById('batterie').innerText = `${convertSeconds(battery.chargingTime)} avant la décharge complète`
-        }
+        
       }
     });
 
