@@ -1,6 +1,6 @@
 <html><head>
     <meta charset="UTF-8">
-    
+    <script src="pollyfill.js"></script>
     <style id="webmakerstyle">
     body {
         display: flex;
@@ -322,8 +322,8 @@
       grid[save[3]].innerHTML = '<div id="drag3" class="meteo" draggable="true" ondragstart="drag(event)">meteo<i class="bx bx-trash" onclick="deleteThis(this)"></i></div>'
     }
     loadSave()
-    
+    drag()
 </script>
-<script src="pollyfill.js"></script>
+
     
 </body></html>
