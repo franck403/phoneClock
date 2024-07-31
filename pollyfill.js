@@ -1,6 +1,5 @@
-# pollyfill drag and drop for mobile as it not supported
-
-document.addEventListener('DOMContentLoaded', () => {
+# pollyfill drag and drop
+var drag = () => {
     const draggables = document.querySelectorAll('[draggable="true"]');
 
     let offsetX, offsetY;
@@ -78,4 +77,5 @@ document.addEventListener('DOMContentLoaded', () => {
         console.log('Touch device detected. Applying drag-and-drop polyfill.');
         // Additional initialization code for the polyfill can go here if needed
     }
-});
+}
+drag()
