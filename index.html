@@ -180,7 +180,7 @@ border-radius:7px;
   <video id='video' width="320" height="240" autoplay loop muted>
     <source src="screen.mp4" type="video/mp4" />
   </video>
-  <i class="bx bx-edit" href="editor.html"></i>
+  <i class="bx bx-edit" onclick="openEditor()" href="editor.html"></i>
   <div class="weather-container">
     <div>
       <h2>Température</h2>
@@ -220,6 +220,9 @@ border-radius:7px;
     if (localStorage.getItem('editor') != undefined) {
       localStorage.setItem('editor', ["7", "10", "13", "2"].toString())
     }
+function openEditor() {
+location.replace("editor.html")
+}
     function loadGRid() {
       var save = localStorage.getItem('editor').split(',')
     }
