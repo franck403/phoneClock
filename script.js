@@ -12,23 +12,23 @@ function loadGrid() {
 }
 loadGrid()
 console.log(save)
-if (save[0] == "") {
+if (save[0] == "" || save[0] == "NaN") {
   document.getElementById('time').remove()
 } else {
   document.getElementById('time').classList.add('loc' + save[0])
 }
-if (save[1] == "") {
+if (save[1] == "" || save[1] == "NaN") {
   document.getElementById('bat').remove()
 } else {
   document.getElementById('bat').classList.add('loc' + save[1])
 }
-if (save[2] == "") {
+if (save[2] == "" || save[2] == "NaN") {
   // setting 
   document.getElementById('setting').remove()
 } else {
   document.getElementById('setting').classList.add('loc' + save[2])
 }
-if (save[3] == "") {
+if (save[3] == "" || save[3] == "NaN") {
   document.getElementById('weather').remove()
 } else {
   document.getElementById('weather').classList.add('loc' + save[3])
