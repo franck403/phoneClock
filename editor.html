@@ -298,7 +298,9 @@
 
     function exportResult() {
       localStorage.setItem('editor', exportResultReturn())
-      location.replace('/')
+      location.replace(
+  location.pathname.replace(/\/[^\/]*\/?$/, '/')
+);
     }
 
     function autoSave() {
